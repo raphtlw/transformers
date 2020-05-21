@@ -1,4 +1,4 @@
-# transformer
+# transformers
 
 ### A website which allows you to play with the GPT-2 model
 
