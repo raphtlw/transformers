@@ -88,9 +88,6 @@ const Styles = styled.div`
   & {
     margin-bottom: 3rem;
   }
-  .header {
-    margin: 2rem 0rem 0rem 3rem;
-  }
   .main {
     display: flex;
     flex-wrap: wrap;
@@ -98,6 +95,9 @@ const Styles = styled.div`
   }
   .first {
     font-family: Inter, sans-serif;
+  }
+  .header {
+    margin: 2rem 0rem 0rem 3rem;
   }
   .header h1 {
     font-size: 3rem;
@@ -115,15 +115,15 @@ const Styles = styled.div`
   }
   .input {
     margin: 2rem 0rem 0rem 0rem;
-    width: fit-content;
-    height: fit-content;
+    width: 40vw;
+    height: 60vh;
     display: flex;
     flex-direction: column;
   }
   .input textarea {
     resize: none;
-    height: 60vh;
-    width: 40vw;
+    height: 100%;
+    width: 100%;
     font-size: 1rem;
     padding: 1rem;
   }
@@ -169,6 +169,32 @@ const Styles = styled.div`
     font-size: 1rem;
     font-weight: 500;
     word-wrap: break-word;
+  }
+  @media (max-width: 768px) {
+    .main {
+      margin: 0.8rem 0rem 0rem 1.6rem;
+    }
+    .header {
+      margin: 1rem 1.6rem;
+    }
+    .header h1 {
+      font-size: 2.4rem;
+    }
+    .header h2 {
+      font-size: 1rem;
+    }
+    .input {
+      margin: 1rem 1.6rem 0rem 0rem;
+      width: 100%;
+      height: 40vh;
+    }
+    .input textarea:focus {
+      outline: none;
+    }
+    .result {
+      margin: 2rem 0rem;
+      width: 100%;
+    }
   }
 `;
 
