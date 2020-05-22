@@ -10,26 +10,6 @@ export default () => {
   const [running2, setRunning2] = useState(false);
   const [showAnother, setShowAnother] = useState(false);
 
-  const generateText = (input: string) => {
-    const requestBody: Gpt2RequestBody = {
-      length: 300,
-      prefix: input,
-    };
-
-    fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setShowMore(true);
-        setResult(result + res.text);
-        setRunning1(false);
-        setRunning2(false);
-        setShowAnother(true);
-      });
-  };
-
   return (
     <Styles>
       <div className='header'>
@@ -51,7 +31,22 @@ export default () => {
               className={`ld-ext-right ${running1 && 'running'}`}
               onClick={() => {
                 setRunning1(true);
-                generateText(inputText);
+                const requestBody: Gpt2RequestBody = {
+                  length: 100,
+                  prefix: inputText,
+                };
+
+                fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
+                  method: 'POST',
+                  body: JSON.stringify(requestBody),
+                })
+                  .then((res) => res.json())
+                  .then((res) => {
+                    setShowMore(true);
+                    setResult(res.text);
+                    setRunning1(false);
+                    setShowAnother(true);
+                  });
               }}
             >
               Generate {showAnother && 'Another'}
@@ -67,7 +62,22 @@ export default () => {
                     .slice(Math.max(words.length - 20, 0))
                     .join(' ');
                   console.log(lastSentence);
-                  generateText(lastSentence);
+
+                  const requestBody: Gpt2RequestBody = {
+                    length: 100,
+                    prefix: lastSentence,
+                  };
+
+                  fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
+                    method: 'POST',
+                    body: JSON.stringify(requestBody),
+                  })
+                    .then((res) => res.json())
+                    .then((res) => {
+                      setShowMore(true);
+                      setResult(`${result} ${res.text}`);
+                      setRunning2(false);
+                    });
                 }}
               >
                 Generate More
