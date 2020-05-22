@@ -3,6 +3,8 @@ import { ThemeProvider } from 'styled-components';
 
 import '../assets/fonts/index.css';
 import '../styles/global.css';
+import '../styles/loading.min.css';
+import '../styles/ldbtn.min.css';
 
 const theme = {};
 

@@ -1,15 +1,44 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import fetch from 'node-fetch';
 
 export default () => {
   const [result, setResult] = useState('');
   const [inputText, setInputText] = useState('');
+  const [showMore, setShowMore] = useState(false);
+  const [running1, setRunning1] = useState(false);
+  const [running2, setRunning2] = useState(false);
+  const [showAnother, setShowAnother] = useState(false);
+
+  const generateText = (input: string) => {
+    const requestBody: Gpt2RequestBody = {
+      length: 300,
+      prefix: input,
+    };
+
+    fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setShowMore(true);
+        setResult(result + res.text);
+        setRunning1(false);
+        setRunning2(false);
+        setShowAnother(true);
+      });
+  };
 
   return (
     <Styles>
       <div className='header'>
         <h1>transformers</h1>
         <h2>Play around with the gpt-2 writing bot</h2>
+        <h3>
+          Note: This website runs the small 117M model and does not support the
+          full 1558M model because of memory limits.
+        </h3>
       </div>
       <div className='main'>
         <div className='input'>
@@ -17,7 +46,35 @@ export default () => {
             onChange={(event) => setInputText(event.target.value)}
             placeholder='Type something here...'
           />
-          <button>Generate</button>
+          <div className='generate'>
+            <button
+              className={`ld-ext-right ${running1 && 'running'}`}
+              onClick={() => {
+                setRunning1(true);
+                generateText(inputText);
+              }}
+            >
+              Generate {showAnother && 'Another'}
+              <div className='ld ld-ring ld-spin'></div>
+            </button>
+            {showMore && (
+              <button
+                className={`ld-ext-right ${running2 && 'running'}`}
+                onClick={() => {
+                  setRunning2(true);
+                  const words = result.split(' ');
+                  const lastSentence = words
+                    .slice(Math.max(words.length - 20, 0))
+                    .join(' ');
+                  console.log(lastSentence);
+                  generateText(lastSentence);
+                }}
+              >
+                Generate More
+                <div className='ld ld-ring ld-spin'></div>
+              </button>
+            )}
+          </div>
         </div>
         <div className='result'>
           <p>{result}</p>
@@ -28,6 +85,9 @@ export default () => {
 };
 
 const Styles = styled.div`
+  & {
+    margin-bottom: 3rem;
+  }
   .header {
     margin: 2rem 0rem 0rem 3rem;
   }
@@ -48,6 +108,11 @@ const Styles = styled.div`
     font-size: 1.2rem;
     font-weight: 500;
   }
+  .header h3 {
+    margin-top: 0.4rem;
+    font-size: 1rem;
+    font-weight: 400;
+  }
   .input {
     margin: 2rem 0rem 0rem 0rem;
     width: fit-content;
@@ -62,7 +127,13 @@ const Styles = styled.div`
     font-size: 1rem;
     padding: 1rem;
   }
-  .input button {
+  .generate {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 1.6rem;
+  }
+  .generate button {
     outline: none;
     border: none;
     cursor: pointer;
@@ -77,8 +148,9 @@ const Styles = styled.div`
     color: white;
     font-size: 1rem;
     border-radius: 4px;
-    margin-top: 1rem;
     transition: all ease-out 0.1s;
+    margin: 0rem 0.6rem;
+    width: 100%;
   }
   .input button:hover {
     transform: translate(0px, -2px);
@@ -96,5 +168,16 @@ const Styles = styled.div`
   .result p {
     font-size: 1rem;
     font-weight: 500;
+    word-wrap: break-word;
   }
 `;
+
+interface Gpt2RequestBody {
+  length?: number;
+  temperature?: number;
+  top_k?: number;
+  top_p?: number;
+  prefix?: string;
+  truncate?: string;
+  include_prefix?: boolean;
+}
