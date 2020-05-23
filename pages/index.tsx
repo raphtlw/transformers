@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import fetch from 'node-fetch';
+import Emoji from 'a11y-react-emoji';
 
 export default () => {
   const [result, setResult] = useState('');
@@ -9,6 +10,51 @@ export default () => {
   const [running1, setRunning1] = useState(false);
   const [running2, setRunning2] = useState(false);
   const [showAnother, setShowAnother] = useState(false);
+
+  const generateText = () => {
+    setRunning1(true);
+    const requestBody: Gpt2RequestBody = {
+      length: 120,
+      prefix: inputText,
+      truncate: '<|endoftext|>',
+    };
+
+    fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setShowMore(true);
+        setResult(res.text.replace(inputText + ' ', ''));
+        setRunning1(false);
+        setShowAnother(true);
+      });
+  };
+
+  const generateMoreText = () => {
+    setRunning2(true);
+    const words = result.split(' ');
+    const lastSentence = words.slice(Math.max(words.length - 20, 0)).join(' ');
+    console.log(lastSentence);
+
+    const requestBody: Gpt2RequestBody = {
+      length: 120,
+      prefix: lastSentence,
+      truncate: '<|endoftext|>',
+    };
+
+    fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setShowMore(true);
+        setResult(`${result} ${res.text.replace(result, '')}`);
+        setRunning2(false);
+      });
+  };
 
   return (
     <Styles>
@@ -29,26 +75,7 @@ export default () => {
           <div className='generate'>
             <button
               className={`ld-ext-right ${running1 && 'running'}`}
-              onClick={() => {
-                setRunning1(true);
-                const requestBody: Gpt2RequestBody = {
-                  length: 120,
-                  prefix: inputText,
-                  truncate: '<|endoftext|>',
-                };
-
-                fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
-                  method: 'POST',
-                  body: JSON.stringify(requestBody),
-                })
-                  .then((res) => res.json())
-                  .then((res) => {
-                    setShowMore(true);
-                    setResult(res.text);
-                    setRunning1(false);
-                    setShowAnother(true);
-                  });
-              }}
+              onClick={generateText}
             >
               Generate {showAnother && 'Another'}
               <div className='ld ld-ring ld-spin'></div>
@@ -56,31 +83,7 @@ export default () => {
             {showMore && (
               <button
                 className={`ld-ext-right ${running2 && 'running'}`}
-                onClick={() => {
-                  setRunning2(true);
-                  const words = result.split(' ');
-                  const lastSentence = words
-                    .slice(Math.max(words.length - 20, 0))
-                    .join(' ');
-                  console.log(lastSentence);
-
-                  const requestBody: Gpt2RequestBody = {
-                    length: 120,
-                    prefix: lastSentence,
-                    truncate: '<|endoftext|>',
-                  };
-
-                  fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
-                    method: 'POST',
-                    body: JSON.stringify(requestBody),
-                  })
-                    .then((res) => res.json())
-                    .then((res) => {
-                      setShowMore(true);
-                      setResult(`${result} ${res.text.replace(result, '')}`);
-                      setRunning2(false);
-                    });
-                }}
+                onClick={generateMoreText}
               >
                 More
                 <div className='ld ld-ring ld-spin'></div>
@@ -93,6 +96,12 @@ export default () => {
             <b>{inputText}</b> {result}
           </p>
         </div>
+      </div>
+      <div className='footer'>
+        <h1>
+          Created with <Emoji symbol='❤️' label='love' /> by{' '}
+          <a href='https://twitter.com/raphtlw'>raphtlw</a>
+        </h1>
       </div>
     </Styles>
   );
@@ -185,6 +194,17 @@ const Styles = styled.div`
     word-wrap: break-word;
     white-space: pre-wrap;
   }
+  .footer {
+    font-family: Inter, sans-serif;
+    margin: 3rem 0rem 0rem 3rem;
+  }
+  .footer h1 {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  .footer a {
+    color: #2f92ff;
+  }
   @media (max-width: 768px) {
     .main {
       margin: 0.8rem 0rem 0rem 1.6rem;
@@ -209,6 +229,9 @@ const Styles = styled.div`
     .result {
       margin: 2rem 0rem;
       width: 100%;
+    }
+    .footer {
+      margin: 2rem 0rem 0rem 1.6rem;
     }
   }
 `;
