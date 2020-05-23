@@ -62,7 +62,7 @@ export default () => {
     <Styles>
       <div className='header'>
         <h1>transformers</h1>
-        <h2>Play around with the gpt-2 writing bot</h2>
+        <h2>Watch a neural network complete your text</h2>
         <h3>
           Note: This website runs the small 117M model and does not support the
           full 1558M model because of memory limits.
