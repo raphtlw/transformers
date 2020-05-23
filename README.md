@@ -18,7 +18,7 @@
 
 ## Model
 
-This website runs the full 1558M model released by [OpenAI](https://openai.com)
+This website runs the 177M model released by [OpenAI](https://openai.com) and not the full 1588M model due to memory limits (as stated in the website itself)
 
 ## About
 
@@ -32,6 +32,12 @@ To get set up, you'll need to clone this repository.
 
 ```zsh
 npm i
+```
+
+### Start dev server
+
+```zsh
+npm run dev
 ```
 
 ## Contributors
