@@ -75,7 +75,7 @@ export default () => {
                     .then((res) => res.json())
                     .then((res) => {
                       setShowMore(true);
-                      setResult(`${result} ${res.text}`);
+                      setResult(`${result} ${res.text.replace(result, '')}`);
                       setRunning2(false);
                     });
                 }}
@@ -179,6 +179,7 @@ const Styles = styled.div`
     font-size: 1rem;
     font-weight: 500;
     word-wrap: break-word;
+    white-space: pre-wrap;
   }
   @media (max-width: 768px) {
     .main {
