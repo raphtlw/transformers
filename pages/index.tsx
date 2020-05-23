@@ -87,7 +87,9 @@ export default () => {
           </div>
         </div>
         <div className='result'>
-          <p>{result}</p>
+          <p>
+            <b>{inputText}</b> {result}
+          </p>
         </div>
       </div>
     </Styles>
