@@ -26,10 +26,11 @@ export default () => {
       .then((res) => res.json())
       .then((res) => {
         setShowMore(true);
-        setResult(res.text.replace(inputText + ' ', ''));
+        setResult(res.text.replace(inputText, ''));
         setRunning1(false);
         setShowAnother(true);
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
   const generateMoreText = () => {
@@ -53,7 +54,8 @@ export default () => {
         setShowMore(true);
         setResult(`${result} ${res.text.replace(result, '')}`);
         setRunning2(false);
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -93,7 +95,8 @@ export default () => {
         </div>
         <div className='result'>
           <p>
-            <b>{inputText}</b> {result}
+            <b>{inputText}</b>
+            {result}
           </p>
         </div>
       </div>
