@@ -80,7 +80,7 @@ export default () => {
                     });
                 }}
               >
-                Generate More
+                More
                 <div className='ld ld-ring ld-spin'></div>
               </button>
             )}
