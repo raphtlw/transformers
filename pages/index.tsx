@@ -105,10 +105,6 @@ export default () => {
           Created with <Emoji symbol='❤️' label='love' /> by{' '}
           <a href='https://twitter.com/raphtlw'>raphtlw</a>
         </h1>
-        <h2>
-          This project is open source!{' '}
-          <a href='https://github.com/raphtlw/transformers'>Github</a>
-        </h2>
       </div>
     </Styles>
   );
@@ -211,10 +207,6 @@ const Styles = styled.div`
   }
   .footer a {
     color: #2f92ff;
-  }
-  .footer h2 {
-    font-size: 1rem;
-    font-weight: 400;
   }
   @media (max-width: 768px) {
     .main {
