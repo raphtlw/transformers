@@ -32,8 +32,9 @@ export default () => {
               onClick={() => {
                 setRunning1(true);
                 const requestBody: Gpt2RequestBody = {
-                  length: 100,
+                  length: 120,
                   prefix: inputText,
+                  truncate: '<|endoftext|>',
                 };
 
                 fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
@@ -64,8 +65,9 @@ export default () => {
                   console.log(lastSentence);
 
                   const requestBody: Gpt2RequestBody = {
-                    length: 100,
+                    length: 120,
                     prefix: lastSentence,
+                    truncate: '<|endoftext|>',
                   };
 
                   fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
