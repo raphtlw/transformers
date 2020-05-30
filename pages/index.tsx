@@ -14,9 +14,8 @@ export default () => {
   const generateText = () => {
     setRunning1(true);
     const requestBody: Gpt2RequestBody = {
-      length: 120,
+      max_length: 120,
       prefix: inputText,
-      truncate: '<|endoftext|>',
     };
 
     fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
@@ -40,9 +39,8 @@ export default () => {
     console.log(lastSentence);
 
     const requestBody: Gpt2RequestBody = {
-      length: 120,
+      max_length: 120,
       prefix: lastSentence,
-      truncate: '<|endoftext|>',
     };
 
     fetch('https://gpt2-epjrw3kbeq-uc.a.run.app', {
@@ -240,11 +238,6 @@ const Styles = styled.div`
 `;
 
 interface Gpt2RequestBody {
-  length?: number;
-  temperature?: number;
-  top_k?: number;
-  top_p?: number;
+  max_length?: number;
   prefix?: string;
-  truncate?: string;
-  include_prefix?: boolean;
 }
