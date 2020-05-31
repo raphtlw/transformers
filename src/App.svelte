@@ -89,15 +89,9 @@
   }
 </style>
 
-<svelte:head>
-  <title>transformers</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap"
-    rel="stylesheet" />
-</svelte:head>
 <main>
   <h1>transformers</h1>
-  <h2>Watch a neural network complete your text</h2>
+  <h2>See how a modern neural network completes your text.</h2>
   <textarea
     bind:value={input}
     placeholder="Type something here..."
