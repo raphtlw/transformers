@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 ai = aitextgen()
+ai.quantize()
 
 
 class RootBody(BaseModel):
@@ -21,7 +22,7 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"])
 @app.post("/")
 async def root(body: RootBody):
     result: str = ai.generate_one(
-        prompt=body.prefix, max_length=body.max_length, temperature=0.7, top_p=0.9,
+        prompt=body.prefix, max_length=body.max_length, temperature=0.7, top_p=0.9, repetition_penalty=1.2
     )
 
     return {"text": result}
