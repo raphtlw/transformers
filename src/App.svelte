@@ -1,5 +1,5 @@
 <script>
-  import randomString from "@js-random/string";
+  import randomWords from "random-words";
 
   let input = "";
   let generate = "Generate";
@@ -7,9 +7,9 @@
   const generateText = () => {
     generate = "Generating...";
     const prefix = new String(input);
-    const randomInput = setInterval(
-      () => (input = randomString(input.length, prefix)),
-      200
+    const randomizeInput = setInterval(
+      () => (input = input + " " + randomWords()),
+      1000
     );
 
     fetch("https://gpt2-epjrw3kbeq-uc.a.run.app", {
@@ -23,7 +23,7 @@
     })
       .then(res => res.json())
       .then(res => {
-        clearInterval(randomInput);
+        clearInterval(randomizeInput);
         input = res.text;
         generate = "Generate Another";
       });
@@ -53,7 +53,7 @@
   }
   textarea {
     padding: 0.8rem;
-    height: 15rem;
+    height: 20rem;
     width: 100%;
     resize: vertical;
   }

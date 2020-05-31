@@ -16,7 +16,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
-    "@js-random/string": "^0.3.5",
+    "random-words": "^1.1.1",
     "sirv-cli": "^0.4.4"
   }
 }
