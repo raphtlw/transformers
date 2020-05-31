@@ -105,6 +105,6 @@
   <button on:click={generateText} type="submit">{generate}</button>
   <footer>
     Created with ❤️ by
-    <a href="https://twitter.com/raphtlw">Raphael Tang</a>
+    <a href="https://twitter.com/raphtlw">Raphael</a>
   </footer>
 </main>
