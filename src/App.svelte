@@ -6,26 +6,20 @@
 
   const generateText = () => {
     generate = "Generating...";
-    const prefix = new String(input);
-    const randomizeInput = setInterval(
-      () => (input = input + " " + randomWords()),
-      1000
-    );
 
     fetch("https://gpt2-epjrw3kbeq-uc.a.run.app", {
       method: "POST",
       body: JSON.stringify({
         max_length: 400,
-        prefix: prefix
+        prefix: input
       }),
       mode: "cors",
       cache: "no-cache"
     })
       .then(res => res.json())
       .then(res => {
-        clearInterval(randomizeInput);
         input = res.text;
-        generate = "Generate Another";
+        generate = "Generate";
       });
   };
 </script>
